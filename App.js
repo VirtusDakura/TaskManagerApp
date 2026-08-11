@@ -1,43 +1,51 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, StatusBar, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFonts, Lato_400Regular, Lato_700Bold } from "@expo-google-fonts/lato";
+import person from "./assets/person.png";
+import exercise from "./assets/exercise.png";
+import study from "./assets/study.png";
+import work from "./assets/work.png";
+import personal from "./assets/personal.png";
+import health from "./assets/health.png";
+import shopping from "./assets/shopping.png";
+import finance from "./assets/finance.png";
 
 const categories = [
   {
     title: "Exercise",
     tasks: 12,
-    icon: "run",
+    image: exercise,
   },
   {
     title: "Study",
     tasks: 12,
-    icon: "book-open-page-variant",
+    image: study,
   },
   {
     title: "Work",
     tasks: 8,
-    icon: "briefcase-outline",
+    image: work,
   },
   {
     title: "Personal",
     tasks: 6,
-    icon: "account-heart-outline",
+    image: personal,
   },
   {
     title: "Health",
     tasks: 9,
-    icon: "heart-pulse",
+    image: health,
   },
   {
     title: "Shopping",
     tasks: 5,
-    icon: "shopping-outline",
+    image: shopping,
   },
   {
     title: "Finance",
     tasks: 4,
-    icon: "wallet-outline",
+    image: finance,
   },
 ];
 
@@ -53,6 +61,15 @@ const tasks = [
 ];
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Lato: Lato_700Bold,
+    Lato_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
@@ -66,20 +83,20 @@ export default function App() {
           </View>
 
           <View style={styles.profileContainer}>
-            <Text style={styles.profileEmoji}>👨‍💻</Text>
+            <Image style={styles.profileImage} source={person} />
           </View>
         </View>
 
         {/* Search */}
         <View style={styles.searchRow}>
+
           <View style={styles.searchContainer}>
             <Ionicons name="search-outline" size={24} color="#000" />
-
             <TextInput placeholder="Search" placeholderTextColor="#111" style={styles.searchInput} />
           </View>
 
           <TouchableOpacity style={styles.filterButton}>
-            <Ionicons name="options-outline" size={28} color="#fff" />
+            <MaterialCommunityIcons name="tune" size={28} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -99,8 +116,7 @@ export default function App() {
                 </Text>
 
                 <View style={styles.categoryImageContainer}>
-                  <MaterialCommunityIcons name={category.icon} size={85} color="#222"
-                  />
+                  <Image source={category.image} style={styles.categoryImage} />
                 </View>
               </TouchableOpacity>
             ))}
@@ -115,20 +131,13 @@ export default function App() {
 
           <View style={styles.tasksContainer}>
             {tasks.map((task) => (
-              <TouchableOpacity
-                key={task}
-                style={styles.taskCard}
-              >
+              <TouchableOpacity key={task} style={styles.taskCard}>
                 <Text style={styles.taskTitle}>
                   {task}
                 </Text>
 
                 <View style={styles.taskArrow}>
-                  <Ionicons
-                    name="chevron-forward"
-                    size={20}
-                    color="#777"
-                  />
+                  <Ionicons name="chevron-forward" size={20} color="#777" />
                 </View>
               </TouchableOpacity>
             ))}
@@ -164,30 +173,36 @@ const styles = StyleSheet.create({
   },
 
   greeting: {
-    fontSize: 30,
-    fontWeight: "600",
+    fontFamily: "Lato",
+    fontSize: 32,
+    fontWeight: "700",
     color: "#000",
-    letterSpacing: -0.8,
+    letterSpacing: 0,
   },
 
   taskCount: {
+    fontFamily: "Lato",
     fontSize: 12,
-    color: "#111",
+    fontWeight: "500",
+    color: "#000",
+    letterSpacing: 0,
     marginTop: 2,
   },
 
   profileContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 50,
+    height: 52,
+    borderRadius: 26,
     backgroundColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
-    elevation: 2,
   },
 
-  profileEmoji: {
-    fontSize: 29,
+  profileImage: {
+    width: 46,
+    height: 45,
+    borderRadius: 22,
+    resizeMode: "contain",
   },
 
   /* Search */
@@ -211,14 +226,17 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginLeft: 10,
+    fontFamily: "Lato",
     fontSize: 16,
-    color: "#111",
+    fontWeight: "700",
+    color: "#000",
+    letterSpacing: 0,
     paddingVertical: 0,
   },
 
   filterButton: {
     width: 50,
-    height: 50,
+    height: 48,
     borderRadius: 15,
     backgroundColor: "#F0522F",
     alignItems: "center",
@@ -226,20 +244,21 @@ const styles = StyleSheet.create({
   },
 
   /* Sections */
-
   section: {
     marginTop: 30,
   },
 
   sectionTitle: {
-    fontSize: 21,
-    fontWeight: "600",
+    fontFamily: "Lato",
+    fontSize: 20,
+    fontWeight: "700",
     color: "#000",
+    lineHeight: 24,
+    letterSpacing: 0,
     marginBottom: 10,
   },
 
   /* Categories */
-
   categoriesContainer: {
     gap: 24,
     paddingRight: 20,
@@ -256,14 +275,19 @@ const styles = StyleSheet.create({
   },
 
   categoryTitle: {
+    fontFamily: "Lato",
     fontSize: 16,
-    fontWeight: "600",
-    color: "#111",
+    fontWeight: "700",
+    color: "#000",
+    lineHeight: 20,
   },
 
   categoryTasks: {
+    fontFamily: "Lato",
     fontSize: 12,
-    color: "#222",
+    fontWeight: "400",
+    color: "#111",
+    lineHeight: 16,
     marginTop: 2,
   },
 
@@ -274,6 +298,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
+  categoryImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+
   /* Tasks */
   tasksContainer: {
     gap: 12,
@@ -282,7 +312,7 @@ const styles = StyleSheet.create({
   taskCard: {
     height: 128,
     backgroundColor: "#FBF9F7",
-    borderRadius: 17,
+    borderRadius: 15,
     borderWidth: 1,
     borderColor: "#E8D1BA",
     paddingHorizontal: 16,
@@ -290,9 +320,12 @@ const styles = StyleSheet.create({
   },
 
   taskTitle: {
+    fontFamily: "Lato",
     fontSize: 16,
-    fontWeight: "600",
-    color: "#111",
+    fontWeight: "700",
+    color: "#000",
+    lineHeight: 20,
+    letterSpacing: 0,
   },
 
   taskArrow: {
